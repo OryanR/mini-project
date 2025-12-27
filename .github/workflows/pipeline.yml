@@ -25,5 +25,5 @@ jobs:
         run: |
           docker run -d --name test-container -p 8080:80 mini-project:test
           sleep 5
-          curl localhost:8080 | grep -q "<html>"
+          curl localhost:8080 | grep -q "<html"
           docker stop test-container
