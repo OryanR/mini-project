@@ -28,13 +28,13 @@ jobs:
           format: 'table'
           severity: 'CRITICAL,HIGH'
 
-      - name: Run Docker Container Test
+      - name: Run Integration Test
         run: |
-          docker run -d --name test-container -p 8080:80 mini-project:test
+          docker compose up -d
           sleep 5
-          curl localhost:8080 | grep -q "<html"
+          curl localhost:8080 | grep -i "<html"
 
       - name: Cleanup
         if: always()  # This runs even if the 'curl' test fails!
-        run: docker-compose down
+        run: docker compose down
 
