@@ -21,9 +21,20 @@ jobs:
       - name: Build Docker Image
         run: docker build -t mini-project:test .
 
+      - name: Scan image for vulnerabilities (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'mini-project:test'
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+
       - name: Run Docker Container Test
         run: |
           docker run -d --name test-container -p 8080:80 mini-project:test
           sleep 5
           curl localhost:8080 | grep -q "<html"
-          docker stop test-container
+
+      - name: Cleanup
+        if: always()  # This runs even if the 'curl' test fails!
+        run: docker-compose down
+
