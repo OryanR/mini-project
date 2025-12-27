@@ -16,7 +16,7 @@ jobs:
       - name: Lint HTML
         run: |
           # Simple check to ensure our HTML is valid
-          grep -i "<html>" html/index.html
+          grep -i "<html" html/index.html
 
       - name: Build Docker Image
         run: docker build -t mini-project:test .
